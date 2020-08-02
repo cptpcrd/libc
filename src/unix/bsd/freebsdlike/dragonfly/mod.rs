@@ -519,6 +519,7 @@ pub const KERN_PROC_RUID: ::c_int = 6;
 pub const KERN_PROC_ARGS: ::c_int = 7;
 pub const KERN_PROC_CWD: ::c_int = 8;
 pub const KERN_PROC_PATHNAME: ::c_int = 9;
+pub const KERN_PROC_SIGTRAMP: ::c_int = 10;
 pub const KERN_PROC_FLAGMASK: ::c_int = 0x10;
 pub const KERN_PROC_FLAG_LWP: ::c_int = 0x10;
 pub const KIPC_MAXSOCKBUF: ::c_int = 1;
