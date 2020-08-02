@@ -1426,6 +1426,7 @@ extern "C" {
         locale: *const ::c_char,
     ) -> *mut ::c_char;
     pub fn localeconv() -> *mut lconv;
+    pub fn gethostid() -> ::c_long;
 
     #[cfg_attr(
         all(target_os = "macos", target_arch = "x86"),
