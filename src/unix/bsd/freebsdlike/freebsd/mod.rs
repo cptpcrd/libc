@@ -5,6 +5,7 @@ pub type lwpid_t = i32;
 pub type blksize_t = i32;
 pub type clockid_t = ::c_int;
 pub type sem_t = _sem;
+pub type fixpt_t = u32;
 
 pub type fsblkcnt_t = u64;
 pub type fsfilcnt_t = u64;
