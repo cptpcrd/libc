@@ -1154,6 +1154,17 @@ pub const F_READAHEAD: ::c_int = 15;
 pub const F_RDAHEAD: ::c_int = 16;
 pub const F_DUP2FD_CLOEXEC: ::c_int = 18;
 
+pub const WMESGLEN: ::c_int = 8;
+pub const LOCKNAMELEN: ::c_int = 8;
+pub const TDNAMLEN: ::c_int = 16;
+pub const COMMLEN: ::c_int = 19;
+pub const KI_EMULNAMELEN: ::c_int = 16;
+pub const KI_NGROUPS: ::c_int = 16;
+pub const LOGNAMELEN: ::c_int = 17;
+pub const LOGINCLASSLEN: ::c_int = 17;
+
+pub const MAXCOMLEN: ::c_int = 19;
+
 fn _ALIGN(p: usize) -> usize {
     (p + _ALIGNBYTES) & !_ALIGNBYTES
 }
