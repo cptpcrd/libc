@@ -1438,6 +1438,8 @@ extern "C" {
         thread: ::pthread_t,
         name: *const ::c_char,
     ) -> ::c_int;
+
+    pub fn sethostid(hostid: ::c_long) -> ::c_int;
 }
 
 extern "C" {

@@ -2328,6 +2328,8 @@ extern "C" {
         sevlen: ::socklen_t,
         flags: ::c_uint,
     ) -> ::c_int;
+
+    pub fn sethostid(hostid: ::c_long) -> ::c_int;
 }
 
 cfg_if! {

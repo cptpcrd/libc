@@ -897,6 +897,8 @@ extern "C" {
     pub fn regfree(preg: *mut regex_t);
 
     pub fn issetugid() -> ::c_int;
+
+    pub fn sethostid(hostid: ::c_long) -> ::c_int;
 }
 
 cfg_if! {
