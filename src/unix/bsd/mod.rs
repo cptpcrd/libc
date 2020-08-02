@@ -895,6 +895,8 @@ extern "C" {
     ) -> ::size_t;
 
     pub fn regfree(preg: *mut regex_t);
+
+    pub fn issetugid() -> ::c_int;
 }
 
 cfg_if! {
