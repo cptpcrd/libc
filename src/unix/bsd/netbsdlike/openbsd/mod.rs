@@ -1493,6 +1493,16 @@ extern "C" {
         servlen: ::size_t,
         flags: ::c_int,
     ) -> ::c_int;
+    pub fn getresgid(
+        rgid: *mut libc::gid_t,
+        egid: *mut libc::gid_t,
+        sgid: *mut libc::gid_t,
+    ) -> libc::c_int;
+    pub fn getresuid(
+        ruid: *mut libc::uid_t,
+        euid: *mut libc::uid_t,
+        suid: *mut libc::uid_t,
+    ) -> libc::c_int;
     pub fn kevent(
         kq: ::c_int,
         changelist: *const ::kevent,
