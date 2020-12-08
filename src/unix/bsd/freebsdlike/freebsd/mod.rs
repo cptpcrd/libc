@@ -1165,6 +1165,9 @@ pub const LOGINCLASSLEN: ::c_int = 17;
 
 pub const MAXCOMLEN: ::c_int = 19;
 
+pub const CAP_RIGHTS_VERSION00: ::c_int = 0;
+pub const CAP_RIGHTS_VERSION: ::c_int = CAP_RIGHTS_VERSION00;
+
 fn _ALIGN(p: usize) -> usize {
     (p + _ALIGNBYTES) & !_ALIGNBYTES
 }
@@ -1520,6 +1523,12 @@ extern "C" {
         niov: ::c_uint,
         flags: ::c_int,
     ) -> ::c_int;
+}
+
+s_no_extra_traits! {
+    pub struct cap_rights_t {
+        pub cr_rights: [u64; CAP_RIGHTS_VERSION as usize + 2],
+    }
 }
 
 #[link(name = "util")]
