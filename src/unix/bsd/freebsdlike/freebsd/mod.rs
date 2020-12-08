@@ -1168,6 +1168,57 @@ pub const MAXCOMLEN: ::c_int = 19;
 pub const CAP_RIGHTS_VERSION00: ::c_int = 0;
 pub const CAP_RIGHTS_VERSION: ::c_int = CAP_RIGHTS_VERSION00;
 
+pub const KF_ATTR_VALID: ::c_int = 0x001;
+
+pub const KF_TYPE_NONE: ::c_int = 0;
+pub const KF_TYPE_VNODE: ::c_int = 1;
+pub const KF_TYPE_SOCKET: ::c_int = 2;
+pub const KF_TYPE_PIPE: ::c_int = 3;
+pub const KF_TYPE_FIFO: ::c_int = 4;
+pub const KF_TYPE_KQUEUE: ::c_int = 5;
+pub const KF_TYPE_CRYPTO: ::c_int = 6;
+pub const KF_TYPE_MQUEUE: ::c_int = 7;
+pub const KF_TYPE_SHM: ::c_int = 8;
+pub const KF_TYPE_SEM: ::c_int = 9;
+pub const KF_TYPE_PTS: ::c_int = 10;
+pub const KF_TYPE_PROCDESC: ::c_int = 11;
+pub const KF_TYPE_DEV: ::c_int = 12;
+pub const KF_TYPE_UNKNOWN: ::c_int = 255;
+
+pub const KF_VTYPE_VNON: ::c_int = 0;
+pub const KF_VTYPE_VREG: ::c_int = 1;
+pub const KF_VTYPE_VDIR: ::c_int = 2;
+pub const KF_VTYPE_VBLK: ::c_int = 3;
+pub const KF_VTYPE_VCHR: ::c_int = 4;
+pub const KF_VTYPE_VLNK: ::c_int = 5;
+pub const KF_VTYPE_VSOCK: ::c_int = 6;
+pub const KF_VTYPE_VFIFO: ::c_int = 7;
+pub const KF_VTYPE_VBAD: ::c_int = 8;
+pub const KF_VTYPE_UNKNOWN: ::c_int = 255;
+
+pub const KF_FD_TYPE_CWD: ::c_int = -1;
+pub const KF_FD_TYPE_ROOT: ::c_int = -2;
+pub const KF_FD_TYPE_JAIL: ::c_int = -3;
+pub const KF_FD_TYPE_TRACE: ::c_int = -4;
+pub const KF_FD_TYPE_TEXT: ::c_int = -5;
+pub const KF_FD_TYPE_CTTY: ::c_int = -6;
+
+pub const KF_FLAG_READ: ::c_int = 0x00000001;
+pub const KF_FLAG_WRITE: ::c_int = 0x00000002;
+pub const KF_FLAG_APPEND: ::c_int = 0x00000004;
+pub const KF_FLAG_ASYNC: ::c_int = 0x00000008;
+pub const KF_FLAG_FSYNC: ::c_int = 0x00000010;
+pub const KF_FLAG_NONBLOCK: ::c_int = 0x00000020;
+pub const KF_FLAG_DIRECT: ::c_int = 0x00000040;
+pub const KF_FLAG_HASLOCK: ::c_int = 0x00000080;
+pub const KF_FLAG_SHLOCK: ::c_int = 0x00000100;
+pub const KF_FLAG_EXLOCK: ::c_int = 0x00000200;
+pub const KF_FLAG_NOFOLLOW: ::c_int = 0x00000400;
+pub const KF_FLAG_CREAT: ::c_int = 0x00000800;
+pub const KF_FLAG_TRUNC: ::c_int = 0x00001000;
+pub const KF_FLAG_EXCL: ::c_int = 0x00002000;
+pub const KF_FLAG_EXEC: ::c_int = 0x00004000;
+
 fn _ALIGN(p: usize) -> usize {
     (p + _ALIGNBYTES) & !_ALIGNBYTES
 }
@@ -1528,6 +1579,103 @@ extern "C" {
 s_no_extra_traits! {
     pub struct cap_rights_t {
         pub cr_rights: [u64; CAP_RIGHTS_VERSION as usize + 2],
+    }
+
+    pub struct kinfo_file {
+        pub kf_structsize: ::c_int,
+        pub kf_type: ::c_int,
+        pub kf_fd: ::c_int,
+        pub kf_ref_count: ::c_int,
+        pub kf_flags: ::c_int,
+        kf_pad0: ::c_int,
+        pub kf_offset: i64,
+        pub kf_un: kinfo_file_un,
+        pub kf_status: u16,
+        ki_pad1: u16,
+        _kif_ispare0: ::c_int,
+        pub kf_cap_rights: ::cap_rights_t,
+        _kf_cap_spare: u64,
+        pub kf_path: [::c_char; ::PATH_MAX as usize],
+    }
+
+    pub union kinfo_file_un {
+        pub kf_11: kinfo_file_un_11,
+        pub kf_sock: kinfo_file_un_sock,
+        pub kf_file: kinfo_file_un_file,
+        pub kf_sem: kinfo_file_un_sem,
+        pub kf_pipe: kinfo_file_un_pipe,
+        pub kf_pts: kinfo_file_un_pts,
+        pub kf_proc: kinfo_file_un_proc,
+    }
+
+    pub struct kinfo_file_un_11 {
+        pub kf_vnode_type: ::c_int,
+        pub kf_sock_domain: ::c_int,
+        pub kf_sock_type: ::c_int,
+        pub kf_sock_protocol: ::c_int,
+        pub kf_sa_local: ::sockaddr_storage,
+        pub kf_sa_peer: ::sockaddr_storage,
+    }
+
+    pub struct kinfo_file_un_sock {
+        pub kf_sock_sendq: u32,
+        pub kf_sock_domain0: ::c_int,
+        pub kf_sock_type0: ::c_int,
+        pub kf_sock_protocol0: ::c_int,
+        pub kf_sa_local: ::sockaddr_storage,
+        pub kf_sa_peer: ::sockaddr_storage,
+        pub kf_sock_pcb: u64,
+        pub kf_sock_inpcb: u64,
+        pub kf_sock_unpconn: u64,
+        pub kf_sock_snd_sb_state: u16,
+        pub kf_sock_rcv_sb_state: u16,
+        pub kf_sock_recvq: u32,
+    }
+
+    pub struct kinfo_file_un_file {
+        pub kf_file_type: ::c_int,
+        kf_spareint: [::c_int; 3],
+        kf_spareint64: [u64; 30],
+        pub kf_file_fsid: u64,
+        pub kf_file_rdev: u64,
+        pub kf_file_fileid: u64,
+        pub kf_file_size: u64,
+        pub kf_file_fsid_freebsd11: u32,
+        pub kf_file_rdev_freebsd11: u32,
+        pub kf_file_mode: u16,
+        kf_file_pad0: u16,
+        kf_file_pad1: u32,
+    }
+
+    pub struct kinfo_file_un_sem {
+        kf_spareint: [u32; 4],
+        kf_spareint64: [u64; 32],
+        pub kf_sem_val: u32,
+        pub kf_sem_mode: u16,
+    }
+
+    pub struct kinfo_file_un_pipe {
+        kf_spareint: [u32; 4],
+        kf_spareint64: [u64; 32],
+        pub kf_pipe_addr: u64,
+        pub kf_pipe_peer: u64,
+        pub kf_pipe_buffer_cnt: u32,
+        pub kf_pipe_pad0: [u32; 3],
+    }
+
+    pub struct kinfo_file_un_pts {
+        kf_spareint: [u32; 4],
+        kf_spareint64: [u64; 32],
+        pub kf_pts_dev_freebsd11: u32,
+        kf_pts_pad0: u32,
+        pub kf_pts_dev: u64,
+        pub kf_pts_pad1: [u32; 4],
+    }
+
+    pub struct kinfo_file_un_proc {
+        kf_spareint: [u32; 4],
+        kf_spareint64: [u64; 32],
+        pub kf_pid: ::pid_t,
     }
 }
 
