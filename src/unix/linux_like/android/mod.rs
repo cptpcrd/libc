@@ -2405,6 +2405,10 @@ f! {
         0 != (cpuset.__bits[idx] & (1 << offset))
     }
 
+    pub fn CPU_COUNT(cpuset: &cpu_set_t) -> ::c_int {
+        cpuset.__bits.iter().map(|i| i.count_ones() as ::c_int).sum()
+    }
+
     pub fn CPU_EQUAL(set1: &cpu_set_t, set2: &cpu_set_t) -> bool {
         set1.__bits == set2.__bits
     }
